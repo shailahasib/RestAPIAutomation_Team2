@@ -13,8 +13,9 @@ public class RestAPI {
     protected Properties properties;
     protected InputStream inputStream;
     protected String baseUrl;
-
+    protected String uploadBase;
     public RestAPI() {
+        this.uploadBase = "https://upload.twitter.com/1.1";
         this.baseUrl = "https://api.twitter.com/1.1";
         this.properties = new Properties();
         inputStream = null;
