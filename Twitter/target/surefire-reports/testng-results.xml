@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="32" total="37" passed="5" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2020-11-28T16:06:56 EST" name="Surefire suite" finished-at="2020-11-28T16:07:01 EST" duration-ms="5342">
+    <groups>
+    </groups>
+    <test started-at="2020-11-28T16:06:56 EST" name="Surefire test" finished-at="2020-11-28T16:07:01 EST" duration-ms="5342">
+      <class name="tweetTest.TwiterApiAutomationWithRestAssuredTest">
+        <test-method is-config="true" signature="setUpPostsAPI()[pri:0, instance:tweetTest.TwiterApiAutomationWithRestAssuredTest@709ba3fb]" started-at="2020-11-28T16:07:00 EST" name="setUpPostsAPI" finished-at="2020-11-28T16:07:00 EST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpPostsAPI -->
+        <test-method signature="setUpTweetAPI()[pri:0, instance:tweetTest.TwiterApiAutomationWithRestAssuredTest@709ba3fb]" started-at="2020-11-28T16:07:00 EST" name="setUpTweetAPI" finished-at="2020-11-28T16:07:01 EST" duration-ms="838" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpTweetAPI -->
+      </class> <!-- tweetTest.TwiterApiAutomationWithRestAssuredTest -->
+      <class name="tweetTest.TweetAPIClientRunaTest">
+        <test-method is-config="true" signature="setUpTweetAPI()[pri:0, instance:tweetTest.TweetAPIClientRunaTest@5d20e46]" started-at="2020-11-28T16:06:56 EST" name="setUpTweetAPI" finished-at="2020-11-28T16:06:56 EST" duration-ms="15" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpTweetAPI -->
+        <test-method signature="UserCreateFollowerListTest()[pri:0, instance:tweetTest.TweetAPIClientRunaTest@5d20e46]" started-at="2020-11-28T16:06:56 EST" name="UserCreateFollowerListTest" finished-at="2020-11-28T16:06:59 EST" duration-ms="2905" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- UserCreateFollowerListTest -->
+        <test-method signature="getUserUploadLookUpTest()[pri:0, instance:tweetTest.TweetAPIClientRunaTest@5d20e46]" started-at="2020-11-28T16:06:59 EST" name="getUserUploadLookUpTest" finished-at="2020-11-28T16:07:00 EST" duration-ms="1031" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- getUserUploadLookUpTest -->
+        <test-method signature="mediaHeaderValueTest()[pri:0, instance:tweetTest.TweetAPIClientRunaTest@5d20e46]" started-at="2020-11-28T16:07:00 EST" name="mediaHeaderValueTest" finished-at="2020-11-28T16:07:00 EST" duration-ms="226" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- mediaHeaderValueTest -->
+        <test-method signature="testUserCanTweetSuccessfully()[pri:0, instance:tweetTest.TweetAPIClientRunaTest@5d20e46]" started-at="2020-11-28T16:07:00 EST" name="testUserCanTweetSuccessfully" finished-at="2020-11-28T16:07:00 EST" duration-ms="295" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testUserCanTweetSuccessfully -->
+      </class> <!-- tweetTest.TweetAPIClientRunaTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>
