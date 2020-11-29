@@ -11,6 +11,7 @@
     <modules>
         <module>Generic</module>
         <module>Twitter</module>
+        <module>Facebook</module>
     </modules>
 
     <properties>
