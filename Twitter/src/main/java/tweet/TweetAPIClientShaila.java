@@ -129,7 +129,7 @@ public class TweetAPIClientShaila extends RestAPI {
 
     public ValidatableResponse responseTimeForCreateTweet(String tweet) {
         System.out.println(given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .when().get(this.baseUrl + this.GET_USER_TWEET_ENDPOINT)
+                .when().get(this.baseUrl + this.CREATE_TWEET_ENDPOINT)
                 .timeIn(TimeUnit.MILLISECONDS));
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", tweet)
@@ -144,7 +144,6 @@ public class TweetAPIClientShaila extends RestAPI {
         j.put("message_create.message_data", "hey whats up");
         return j;
     }
-
 
     public ValidatableResponse createWelcomeMessage(String s, String payload) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
