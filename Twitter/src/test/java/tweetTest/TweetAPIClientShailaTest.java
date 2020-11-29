@@ -4,12 +4,10 @@ import io.restassured.response.ValidatableResponse;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import tweet.Payload;
+import payload.PayloadForShaila;
 import tweet.TweetAPIClientShaila;
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.UUID;
 
 public class TweetAPIClientShailaTest {
@@ -203,7 +201,7 @@ public class TweetAPIClientShailaTest {
 
     @Test// not working
     public void testDirectMessageSecond() {
-        ValidatableResponse response = this.tweetAPIClientShaila.messageCreateSecond(Payload.dirMessage());
+        ValidatableResponse response = this.tweetAPIClientShaila.messageCreateSecond(PayloadForShaila.dirMessage());
         response.statusCode(200);
         System.out.println(response.extract().body().asPrettyString());
     }
