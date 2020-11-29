@@ -26,7 +26,6 @@ public class TweetAPIClientShaila extends RestAPI {
     private final String DELETE_TWEET_ENDPOINT = "/statuses/destroy.json";
     private final String CREATE_RETWEET_ENDPOINT = "/statuses/retweet/";
     private final String DELETE_RETWEET_ENDPOINT = "/statuses/unretweet/";
-
     private final String GET_USER_TWEET_ENDPOINT = "/statuses/home_timeline.json";
     private final String GET_STATUSES_ID_ENDPOINT = "/statuses/show.json";
     private final String FAVORITES_CREATE_ENDPOINT = "/favorites/create.json";
@@ -47,8 +46,7 @@ public class TweetAPIClientShaila extends RestAPI {
     private final String POST_WELCOME_MESSAGE_ENDPOINT = "/direct_messages/welcome_messages/new.json";
     private final String CREATE_LIST_ENDPOINT = "/lists/create.json";
     String jsonPath ="Twitter/jsonFileInput/jsonMessage.json";
-    public TweetAPIClientShaila() throws FileNotFoundException {
-    }
+
 
     public ValidatableResponse getStatusRetweeters(Long id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
@@ -150,7 +148,6 @@ public class TweetAPIClientShaila extends RestAPI {
 
     public ValidatableResponse createWelcomeMessage(String s, String payload) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .log().all()
                 .accept(ContentType.JSON)
                 .header("Content-Type", "application/json")
                 .contentType(ContentType.JSON)
@@ -189,7 +186,6 @@ public class TweetAPIClientShaila extends RestAPI {
 
     public ValidatableResponse uploadImage(String base64) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .log().all()
                 .param("media", base64)
                 .param("shared", "1")
                 .when().post(this.uploadBase + this.CREATE_MEDIA_ENDPOINT)
@@ -198,7 +194,6 @@ public class TweetAPIClientShaila extends RestAPI {
 
     public ValidatableResponse uploadImageFlower(String base64) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .log().all()
                 .param("media", base64)
                 .param("shared", "true")
                 .when().post(this.uploadBase + this.CREATE_MEDIA_ENDPOINT)
@@ -208,21 +203,21 @@ public class TweetAPIClientShaila extends RestAPI {
     public ValidatableResponse getProfileBanner(Long id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("user_id", id)
-                .when().get(this.uploadBase + this.GET_PROFILE_BANNER)
+                .when().get(this.baseUrl + this.GET_PROFILE_BANNER)
                 .then();
     }
 
     public ValidatableResponse createCollectionOfTweets() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("name", "Collection")
-                .when().post(this.uploadBase + this.CREATE_COLLECTION_ENDPOINT)
+                .when().post(this.baseUrl + this.CREATE_COLLECTION_ENDPOINT)
                 .then();
     }
 
     public ValidatableResponse getTrendsLocation() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 //.param("id",id)
-                .when().get(this.uploadBase + this.GET_TRENDS_ENDPOINT)
+                .when().get(this.baseUrl + this.GET_TRENDS_ENDPOINT)
                 .then();
     }
 
@@ -230,20 +225,20 @@ public class TweetAPIClientShaila extends RestAPI {
     public ValidatableResponse createFriendship() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 //.param("user_id",userId)
-                .when().post(this.uploadBase + this.CREATE_FRIENDSHIPS_ENDPOINT)
+                .when().post(this.baseUrl + this.CREATE_FRIENDSHIPS_ENDPOINT)
                 .then();
     }
 
     public ValidatableResponse getMentionsTimeline() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 //.param("user_id",userId)
-                .when().post(this.uploadBase + this.CREATE_FRIENDSHIPS_ENDPOINT)
+                .when().post(this.baseUrl + this.CREATE_FRIENDSHIPS_ENDPOINT)
                 .then();
     }
 
     public ValidatableResponse getSavedSearches() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .when().post(this.uploadBase + this.GET_SAVED_SEARCHES_ENDPOINT)
+                .when().post(this.baseUrl + this.GET_SAVED_SEARCHES_ENDPOINT)
                 .then();
     }
 
@@ -251,7 +246,7 @@ public class TweetAPIClientShaila extends RestAPI {
     public ValidatableResponse getFriendships() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("source_screen_name", "ShailaHasib1990").param("target_screen_name", "NabilZaman")
-                .when().post(this.uploadBase + this.GET_FRIENDSHIPS_ENDPOINT)
+                .when().post(this.baseUrl + this.GET_FRIENDSHIPS_ENDPOINT)
                 .then();
     }
 
@@ -264,11 +259,10 @@ public class TweetAPIClientShaila extends RestAPI {
 
     public ValidatableResponse createList() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .log().all()
                 .param("name","PowerRangers")
                 .param("mode","public")
                 .param("description","Forever21")
-                .when().post(this.uploadBase + this.CREATE_LIST_ENDPOINT)
+                .when().post(this.baseUrl + this.CREATE_LIST_ENDPOINT)
                 .then().log().all();
     }
 
@@ -277,22 +271,22 @@ public class TweetAPIClientShaila extends RestAPI {
     public ValidatableResponse messageCreate() throws FileNotFoundException {
         FileInputStream jsonMessage = new FileInputStream("/Users/shailahasib/IdeaProjects/RestAPIAutomation_Team2/Twitter/jsonFileInput/secondMessage.json");
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .log().all()
                 .accept(ContentType.JSON)
                 .header("Content-Type", "application/json")
                 .contentType(ContentType.JSON)
                 .body(jsonMessage)
                 .when().post(this.baseUrl + this.CREATE_MESSAGE_ENDPOINT)
                 .then().log().all();
+
+
+
+
+
+
     }
 
 
 
 
-
-
-
-
-//--header 'authorization: OAuth oauth_consumer_key="YOUR_CONSUMER_KEY", oauth_nonce="AUTO_GENERATED_NONCE", oauth_signature="AUTO_GENERATED_SIGNATURE", oauth_signature_method="HMAC-SHA1", oauth_timestamp="AUTO_GENERATED_TIMESTAMP", oauth_token="USERS_ACCESS_TOKEN", oauth_version="1.0"'
 
 }

@@ -10,6 +10,7 @@ public class RestAPI {
     protected String apiSecretKey;
     protected String accessToken;
     protected String accessTokenSecret;
+    protected String googleApiKey;
     protected Properties properties;
     protected InputStream inputStream;
     protected String baseUrl;
@@ -27,7 +28,7 @@ public class RestAPI {
             this.apiSecretKey = this.properties.getProperty("apiSecretKey");
             this.accessToken = this.properties.getProperty("accessToken");
             this.accessTokenSecret = this.properties.getProperty("accessTokenSecret");
-
+            this.googleApiKey= this.properties.getProperty("googleApiKey");
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("File not load Properly");
