@@ -147,20 +147,8 @@ public class TweetAPIClientShaila extends RestAPI {
         return j;
     }
 
-    public ValidatableResponse messageCreate() {
-        String payload = "{\"event\": {\"type\": \"message_create\", \"message_create\": {\"target\": {\"recipient_id\": \"50022611\"}, \"message_data\": {\"text\": \"Hello World!\"}}}}";
-        JsonPath js = new JsonPath(payload);
-        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .accept(ContentType.JSON)
-                .header("Content-Type", "application/json")
-                .contentType(ContentType.JSON)
-                .body("")
-                .when().post(this.baseUrl + this.CREATE_MESSAGE_ENDPOINT)
-                .then();
-    }
 
-
-    public ValidatableResponse createWelcomeMessage(String payload, String base64) {
+    public ValidatableResponse createWelcomeMessage(String s, String payload) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .log().all()
                 .accept(ContentType.JSON)
@@ -173,7 +161,6 @@ public class TweetAPIClientShaila extends RestAPI {
 
 
     public ValidatableResponse messageCreateSecond() throws FileNotFoundException {
-        File jsonFile = new File(jsonPath);
         FileInputStream inputStream = new FileInputStream("/Users/shailahasib/IdeaProjects/RestAPIAutomation_Team2/Twitter/jsonFileInput/jsonMessage.json");
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .accept(ContentType.JSON)
@@ -284,6 +271,26 @@ public class TweetAPIClientShaila extends RestAPI {
                 .when().post(this.uploadBase + this.CREATE_LIST_ENDPOINT)
                 .then().log().all();
     }
+
+
+
+    public ValidatableResponse messageCreate() throws FileNotFoundException {
+        FileInputStream jsonMessage = new FileInputStream("/Users/shailahasib/IdeaProjects/RestAPIAutomation_Team2/Twitter/jsonFileInput/secondMessage.json");
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .log().all()
+                .accept(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .contentType(ContentType.JSON)
+                .body(jsonMessage)
+                .when().post(this.baseUrl + this.CREATE_MESSAGE_ENDPOINT)
+                .then().log().all();
+    }
+
+
+
+
+
+
 
 
 //--header 'authorization: OAuth oauth_consumer_key="YOUR_CONSUMER_KEY", oauth_nonce="AUTO_GENERATED_NONCE", oauth_signature="AUTO_GENERATED_SIGNATURE", oauth_signature_method="HMAC-SHA1", oauth_timestamp="AUTO_GENERATED_TIMESTAMP", oauth_token="USERS_ACCESS_TOKEN", oauth_version="1.0"'

@@ -1,0 +1,13 @@
+{
+  "event": {
+    "type": "message_create",
+    "message_create": {
+      "target": {
+        "recipient_id": "1332888081339457536"
+      },
+      "message_data": {
+        "text": "Hey Aldrin!"
+      }
+    }
+  }
+}

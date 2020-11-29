@@ -202,10 +202,10 @@ public class TweetAPIClientShailaTest {
     }
 
     @Test// working
-    public void testDirectMessageCreate(){
+    public void testDirectMessageCreate() throws FileNotFoundException {
         ValidatableResponse response = this.tweetAPIClientShaila.messageCreate();
         response.statusCode(200);
-        System.out.println(response.extract().body().asPrettyString());
+        //System.out.println(response.extract().body().asPrettyString());
     }
 
 
