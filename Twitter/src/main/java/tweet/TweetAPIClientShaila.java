@@ -3,6 +3,7 @@ package tweet;
 import base.RestAPI;
 import io.restassured.http.ContentType;
 import io.restassured.internal.util.IOUtils;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.ValidatableResponse;
 import org.json.simple.JSONObject;
 import org.testng.annotations.Test;
@@ -23,6 +24,8 @@ public class TweetAPIClientShaila extends RestAPI {
     private final String CREATE_TWEET_ENDPOINT = "/statuses/update.json";
     private final String DELETE_TWEET_ENDPOINT = "/statuses/destroy.json";
     private final String CREATE_RETWEET_ENDPOINT = "/statuses/retweet/";
+    private final String DELETE_RETWEET_ENDPOINT = "/statuses/unretweet/";
+
     private final String GET_USER_TWEET_ENDPOINT = "/statuses/home_timeline.json";
     private final String GET_STATUSES_ID_ENDPOINT = "/statuses/show.json";
     private final String FAVORITES_CREATE_ENDPOINT = "/favorites/create.json";
@@ -37,7 +40,12 @@ public class TweetAPIClientShaila extends RestAPI {
     private final String CREATE_COLLECTION_ENDPOINT = "/collections/create.json";
     private final String GET_TRENDS_ENDPOINT = "/trends/place.json";
     private final String CREATE_FRIENDSHIPS_ENDPOINT = "/friendships/create.json";
+    private final String GET_SAVED_SEARCHES_ENDPOINT = "/saved_searches/list.json";
+    private final String GET_FRIENDSHIPS_ENDPOINT = "/friendships/show.json";
+    private final String DELETE_MESSAGE_ENDPOINT = "/direct_messages/events/destroy.json";
 
+    public TweetAPIClientShaila() throws FileNotFoundException {
+    }
 
     public ValidatableResponse getStatusRetweeters(Long id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
@@ -48,6 +56,12 @@ public class TweetAPIClientShaila extends RestAPI {
 
 
     public ValidatableResponse postRetweet(String id) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .when().post(this.baseUrl + this.CREATE_RETWEET_ENDPOINT + id + JSON)
+                .then();
+    }
+
+    public ValidatableResponse deleteRetweet(String id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().post(this.baseUrl + this.CREATE_RETWEET_ENDPOINT + id + JSON)
                 .then();
@@ -112,6 +126,16 @@ public class TweetAPIClientShaila extends RestAPI {
 
     }
 
+    public ValidatableResponse responseTimeForCreateTweet(String tweet) {
+        System.out.println(given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .when().get(this.baseUrl + this.GET_USER_TWEET_ENDPOINT)
+                .timeIn(TimeUnit.MILLISECONDS));
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .param("status", tweet)
+                .when().post(this.baseUrl + this.CREATE_TWEET_ENDPOINT)
+                .then();
+    }
+
     public Object createJson() {
         JSONObject j = new JSONObject();
         j.put("type", "message_create");
@@ -120,21 +144,56 @@ public class TweetAPIClientShaila extends RestAPI {
         return j;
     }
 
-    public ValidatableResponse messageCreate(String payload) {
+    public ValidatableResponse messageCreate() {
+        String payload ="{\"event\": {\"type\": \"message_create\", \"message_create\": {\"target\": {\"recipient_id\": \"50022611\"}, \"message_data\": {\"text\": \"Hello World!\"}}}}";
+        JsonPath js = new JsonPath(payload);
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                //.accept(ContentType.JSON)
-                .header("content-type", "application/json")
-                //.contentType(ContentType.JSON)
-                .body(payload)
+                .accept(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .contentType(ContentType.JSON)
+                .body("{\n" +
+                        "  \"event\": {\n" +
+                        "    \"type\": \"message_create\",\n" +
+                        "    \"message_create\": {\n" +
+                        "      \"target\": {\n" +
+                        "        \"recipient_id\": \"500226111\"\n" +
+                        "      },\n" +
+                        "      \"message_data\": {\n" +
+                        "        \"text\": \"Eat dirts too...\"\n" +
+                        "      }\n" +
+                        "    }\n" +
+                        "  }\n" +
+                        "}")
                 .when().post(this.baseUrl + this.CREATE_MESSAGE_ENDPOINT)
                 .then();
     }
+
+
+    public ValidatableResponse messageCreateSecond(Object file) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .accept(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .contentType(ContentType.JSON)
+                .body(file)
+                .when().post(this.baseUrl + this.CREATE_MESSAGE_ENDPOINT)
+                .then();
+    }
+
+
+
 
 
     public ValidatableResponse getFollowersList(Long id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("id", id)
                 .when().get(this.baseUrl + this.GET_FOLLOWERS_LIST)
+                .then();
+    }
+
+    public ValidatableResponse deleteMessageUsingId(Long id) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .param("id", id)
+                .when().post(this.baseUrl + this.DELETE_MESSAGE_ENDPOINT)
                 .then();
     }
 
@@ -175,8 +234,31 @@ public class TweetAPIClientShaila extends RestAPI {
                 .then();
     }
 
+    public ValidatableResponse getMentionsTimeline() {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                //.param("user_id",userId)
+                .when().post(this.uploadBase + this.CREATE_FRIENDSHIPS_ENDPOINT)
+                .then();
+    }
+
+    public ValidatableResponse getSavedSearches() {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .when().post(this.uploadBase + this.GET_SAVED_SEARCHES_ENDPOINT)
+                .then();
+    }
+
+
+    public ValidatableResponse getFriendships() {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .param("source_screen_name","ShailaHasib1990").param("target_screen_name","NabilZaman")
+                .when().post(this.uploadBase + this.GET_FRIENDSHIPS_ENDPOINT)
+                .then();
+    }
 
 
 
+
+
+//--header 'authorization: OAuth oauth_consumer_key="YOUR_CONSUMER_KEY", oauth_nonce="AUTO_GENERATED_NONCE", oauth_signature="AUTO_GENERATED_SIGNATURE", oauth_signature_method="HMAC-SHA1", oauth_timestamp="AUTO_GENERATED_TIMESTAMP", oauth_token="USERS_ACCESS_TOKEN", oauth_version="1.0"'
 
 }

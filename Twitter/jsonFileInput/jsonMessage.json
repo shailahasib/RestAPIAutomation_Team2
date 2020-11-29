@@ -3,10 +3,10 @@
     "type": "message_create",
     "message_create": {
       "target": {
-        "recipient_id": "50022611"
+        "recipient_id": "500226111"
       },
       "message_data": {
-        "text": "Hello World!"
+        "text": "trying again"
       }
     }
   }
