@@ -7,6 +7,7 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.ValidatableResponse;
 import org.json.simple.JSONObject;
 import org.testng.annotations.Test;
+import payload.PayloadForShaila;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,7 +44,9 @@ public class TweetAPIClientShaila extends RestAPI {
     private final String GET_SAVED_SEARCHES_ENDPOINT = "/saved_searches/list.json";
     private final String GET_FRIENDSHIPS_ENDPOINT = "/friendships/show.json";
     private final String DELETE_MESSAGE_ENDPOINT = "/direct_messages/events/destroy.json";
-
+    private final String POST_WELCOME_MESSAGE_ENDPOINT = "/direct_messages/welcome_messages/new.json";
+    private final String CREATE_LIST_ENDPOINT = "/lists/create.json";
+    String jsonPath ="Twitter/jsonFileInput/jsonMessage.json";
     public TweetAPIClientShaila() throws FileNotFoundException {
     }
 
@@ -145,42 +148,41 @@ public class TweetAPIClientShaila extends RestAPI {
     }
 
     public ValidatableResponse messageCreate() {
-        String payload ="{\"event\": {\"type\": \"message_create\", \"message_create\": {\"target\": {\"recipient_id\": \"50022611\"}, \"message_data\": {\"text\": \"Hello World!\"}}}}";
+        String payload = "{\"event\": {\"type\": \"message_create\", \"message_create\": {\"target\": {\"recipient_id\": \"50022611\"}, \"message_data\": {\"text\": \"Hello World!\"}}}}";
         JsonPath js = new JsonPath(payload);
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .accept(ContentType.JSON)
                 .header("Content-Type", "application/json")
                 .contentType(ContentType.JSON)
-                .body("{\n" +
-                        "  \"event\": {\n" +
-                        "    \"type\": \"message_create\",\n" +
-                        "    \"message_create\": {\n" +
-                        "      \"target\": {\n" +
-                        "        \"recipient_id\": \"500226111\"\n" +
-                        "      },\n" +
-                        "      \"message_data\": {\n" +
-                        "        \"text\": \"Eat dirts too...\"\n" +
-                        "      }\n" +
-                        "    }\n" +
-                        "  }\n" +
-                        "}")
+                .body("")
                 .when().post(this.baseUrl + this.CREATE_MESSAGE_ENDPOINT)
                 .then();
     }
 
 
-    public ValidatableResponse messageCreateSecond(Object file) {
+    public ValidatableResponse createWelcomeMessage(String payload, String base64) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .log().all()
+                .accept(ContentType.JSON)
+                .header("Content-Type", "application/json")
+                .contentType(ContentType.JSON)
+                .body(payload)
+                .when().post(this.baseUrl + this.POST_WELCOME_MESSAGE_ENDPOINT)
+                .then().log().all();
+    }
+
+
+    public ValidatableResponse messageCreateSecond() throws FileNotFoundException {
+        File jsonFile = new File(jsonPath);
+        FileInputStream inputStream = new FileInputStream("/Users/shailahasib/IdeaProjects/RestAPIAutomation_Team2/Twitter/jsonFileInput/jsonMessage.json");
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .accept(ContentType.JSON)
                 .header("Content-Type", "application/json")
                 .contentType(ContentType.JSON)
-                .body(file)
+                .body(inputStream)
                 .when().post(this.baseUrl + this.CREATE_MESSAGE_ENDPOINT)
                 .then();
     }
-
-
-
 
 
     public ValidatableResponse getFollowersList(Long id) {
@@ -200,9 +202,20 @@ public class TweetAPIClientShaila extends RestAPI {
 
     public ValidatableResponse uploadImage(String base64) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .log().all()
                 .param("media", base64)
+                .param("shared", "1")
                 .when().post(this.uploadBase + this.CREATE_MEDIA_ENDPOINT)
-                .then();
+                .then().log().all();
+    }
+
+    public ValidatableResponse uploadImageFlower(String base64) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .log().all()
+                .param("media", base64)
+                .param("shared", "true")
+                .when().post(this.uploadBase + this.CREATE_MEDIA_ENDPOINT)
+                .then().log().all();
     }
 
     public ValidatableResponse getProfileBanner(Long id) {
@@ -250,13 +263,27 @@ public class TweetAPIClientShaila extends RestAPI {
 
     public ValidatableResponse getFriendships() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .param("source_screen_name","ShailaHasib1990").param("target_screen_name","NabilZaman")
+                .param("source_screen_name", "ShailaHasib1990").param("target_screen_name", "NabilZaman")
                 .when().post(this.uploadBase + this.GET_FRIENDSHIPS_ENDPOINT)
                 .then();
     }
 
+    public ValidatableResponse createMediaUpload() {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .param("commands", "INIT")
+                .when().post(this.uploadBase + this.GET_FRIENDSHIPS_ENDPOINT)
+                .then();
+    }
 
-
+    public ValidatableResponse createList() {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .log().all()
+                .param("name","PowerRangers")
+                .param("mode","public")
+                .param("description","Forever21")
+                .when().post(this.uploadBase + this.CREATE_LIST_ENDPOINT)
+                .then().log().all();
+    }
 
 
 //--header 'authorization: OAuth oauth_consumer_key="YOUR_CONSUMER_KEY", oauth_nonce="AUTO_GENERATED_NONCE", oauth_signature="AUTO_GENERATED_SIGNATURE", oauth_signature_method="HMAC-SHA1", oauth_timestamp="AUTO_GENERATED_TIMESTAMP", oauth_token="USERS_ACCESS_TOKEN", oauth_version="1.0"'

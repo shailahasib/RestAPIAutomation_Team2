@@ -148,6 +148,16 @@ public class TweetAPIClientShailaTest {
         //Assert.assertEquals(actualTweet, tweet, "Tweet is not match");
     }
 
+    @Test //working
+    public void testImageFlower() {
+        ValidatableResponse response = this.tweetAPIClientShaila.uploadImageFlower(PayloadForShaila.flowerImage());
+        response.statusCode(200);
+        System.out.println(response.extract().body().asPrettyString());
+        //System.out.println(response.extract().body().asPrettyString());
+        //String actualTweet = response.extract().body().path("text");
+        //Assert.assertEquals(actualTweet, tweet, "Tweet is not match");
+    }
+
     @Test//not working
     public void testGetProfileBanner() {
         long userId = 500226111;
@@ -191,7 +201,7 @@ public class TweetAPIClientShailaTest {
         //Assert.assertEquals(actualTweet, tweet, "Tweet is not match");
     }
 
-    @Test// not working
+    @Test// working
     public void testDirectMessageCreate(){
         ValidatableResponse response = this.tweetAPIClientShaila.messageCreate();
         response.statusCode(200);
@@ -199,9 +209,23 @@ public class TweetAPIClientShailaTest {
     }
 
 
-    @Test// not working
-    public void testDirectMessageSecond() {
-        ValidatableResponse response = this.tweetAPIClientShaila.messageCreateSecond(PayloadForShaila.dirMessage());
+    @Test// working
+    public void testDirectMessageSecond() throws FileNotFoundException {
+        ValidatableResponse response = this.tweetAPIClientShaila.messageCreateSecond();
+        response.statusCode(200);
+        System.out.println(response.extract().body().asPrettyString());
+    }
+
+    @Test// working
+    public void testWelcomeMessage() {
+        ValidatableResponse response = this.tweetAPIClientShaila.createWelcomeMessage(PayloadForShaila.postWelcomeMessage(),PayloadForShaila.flowerImage());
+        response.statusCode(200);
+        System.out.println(response.extract().body().asPrettyString());
+    }
+
+    @Test// working
+    public void testCreateList() {
+        ValidatableResponse response = this.tweetAPIClientShaila.createList();
         response.statusCode(200);
         System.out.println(response.extract().body().asPrettyString());
     }
