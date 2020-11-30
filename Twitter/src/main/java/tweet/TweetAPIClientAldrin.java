@@ -38,6 +38,7 @@ public class TweetAPIClientAldrin extends RestAPI {
     private final String WELCOME_MSG_EP = "/direct_messages/welcome_messages/new.json";
     private final String CREATE_LIST_ENDPOINT = "/lists/create.json";
     private final String SEARCH_STANDARD_EP = "/search/tweets.json";
+    private final String CHANGE_PROFILE_PIC_EP = "/account/update_profile_image.json";
 
     String jsonPath = "Twitter/jsonFileInput/jsonMessage.json";
 
@@ -90,7 +91,7 @@ public class TweetAPIClientAldrin extends RestAPI {
     }
 
 
-    // Delete a tweet from users twitter
+
     public ValidatableResponse deleteTweet(String tweetId) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("id_str", tweetId)
@@ -271,9 +272,13 @@ public class TweetAPIClientAldrin extends RestAPI {
                 .body(jsonMessage)
                 .when().post(this.baseUrl + this.SEND_MESSAGE_EP)
                 .then().log().all();
+  }
 
+public ValidatableResponse uploadProPic(String impageBase64){
+    return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .param("image",impageBase64)
+            .when().post(this.baseUrl+this.CHANGE_PROFILE_PIC_EP)
+            .then().log().all();
 
-    }
-
-
+}
 }

@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import payload.aldrinsPayloadFiles;
+import payload.copyOfAldrinsPayload;
 import tweet.TweetAPIClientAldrin;
 
 
@@ -109,14 +110,14 @@ public class TweetAPIClientAldrinTest {
         response.statusCode(200);
     }
 
-    @Test
+    @Test (enabled = false)
     public void testLikeATweet() {
         Long id = 1332057147614531585L;
         ValidatableResponse response = this.tweetAPIClientAldrin.likeATweet(id);
         response.statusCode(200);
     }
 
-    @Test
+    @Test (enabled = false)
     public void testUnlikeATweet() {
         Long id = 1332057147614531585L;
         ValidatableResponse response = this.tweetAPIClientAldrin.unlikeATweet(id);
@@ -126,6 +127,7 @@ public class TweetAPIClientAldrinTest {
     @Test
     public void testResponseTime() {
         ValidatableResponse response = this.tweetAPIClientAldrin.responseTime();
+        response.extract().statusCode();
         response.statusCode(200);
     }
 
@@ -148,6 +150,14 @@ public class TweetAPIClientAldrinTest {
         ValidatableResponse response = this.tweetAPIClientAldrin.getSavedSearches();
         response.statusCode(200);
         System.out.println(response.extract().body().asPrettyString());
+    }
+
+    @Test
+    public void testChangeProfilePicture() {
+        ValidatableResponse response = this.tweetAPIClientAldrin.uploadProPic(copyOfAldrinsPayload.flowerImage());
+        response.statusCode(200);
+        System.out.println("Here's the log in brief! "+response.extract().body().asPrettyString());
+
     }
 
     @Test
