@@ -157,8 +157,9 @@ public class TweetAPIClientAldrinTest {
 
     @Test
     public void testChangeProfilePicture() throws IOException {
-        String proPic = new String(Files.readAllBytes((Paths.get("../main/Assets/ProPic.txt"))));
+        String proPic = new String(Files.readAllBytes((Paths.get("assetsRepo/base64/weddingPortrait.txt"))));
         ValidatableResponse response = this.tweetAPIClientAldrin.uploadProPic(proPic);
+
         response.statusCode(200);
         System.out.println("Here's the log in brief! "+response.extract().body().asPrettyString());
 
