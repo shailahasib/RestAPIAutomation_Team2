@@ -12,6 +12,9 @@ import tweet.TweetAPIClientAldrin;
 
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 public class TweetAPIClientAldrinTest {
@@ -153,8 +156,9 @@ public class TweetAPIClientAldrinTest {
     }
 
     @Test
-    public void testChangeProfilePicture() {
-        ValidatableResponse response = this.tweetAPIClientAldrin.uploadProPic(copyOfAldrinsPayload.flowerImage());
+    public void testChangeProfilePicture() throws IOException {
+        String proPic = new String(Files.readAllBytes((Paths.get("../main/Assets/ProPic.txt"))));
+        ValidatableResponse response = this.tweetAPIClientAldrin.uploadProPic(proPic);
         response.statusCode(200);
         System.out.println("Here's the log in brief! "+response.extract().body().asPrettyString());
 
