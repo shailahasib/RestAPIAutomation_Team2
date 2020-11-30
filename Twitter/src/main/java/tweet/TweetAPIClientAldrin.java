@@ -37,16 +37,23 @@ public class TweetAPIClientAldrin extends RestAPI {
     private final String DELETE_MESSAGE_EP = "/direct_messages/events/destroy.json";
     private final String WELCOME_MSG_EP = "/direct_messages/welcome_messages/new.json";
     private final String CREATE_LIST_ENDPOINT = "/lists/create.json";
+    private final String SEARCH_STANDARD_EP = "/search/tweets.json";
+
     String jsonPath = "Twitter/jsonFileInput/jsonMessage.json";
 
 
-    public ValidatableResponse getStatusRetweeters(Long id) {
+    public ValidatableResponse getStatusRetweeters(String id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .param("id", id)
+                .param("id_str", id)
                 .when().get(this.baseUrl + this.RETWEET_IDs_EP)
                 .then();
     }
 
+    public ValidatableResponse searchTweetsOfID(String searchQuery) {
+        return given().log().all().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .when().get(this.baseUrl + this.SEARCH_STANDARD_EP + searchQuery)
+                .then();
+    }
 
     public ValidatableResponse postRetweet(String id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
@@ -54,7 +61,7 @@ public class TweetAPIClientAldrin extends RestAPI {
                 .then();
     }
 
-    public ValidatableResponse deleteRetweet(String id) {
+    public ValidatableResponse removeRetweet(String id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().post(this.baseUrl + this.RETWEET_EP + id + JSON)
                 .then();
@@ -68,14 +75,14 @@ public class TweetAPIClientAldrin extends RestAPI {
     }
 
 
-    public ValidatableResponse postFavoritesOrCreate(Long id) {
+    public ValidatableResponse likeATweet(Long id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("id", id)
                 .when().post(this.baseUrl + this.LIKE_A_TWEET)
                 .then();
     }
 
-    public ValidatableResponse deleteFavorites(Long id) {
+    public ValidatableResponse unlikeATweet(Long id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .queryParam("id", id)
                 .when().post(this.baseUrl + this.UNLIKE_A_TWEET)
@@ -84,9 +91,9 @@ public class TweetAPIClientAldrin extends RestAPI {
 
 
     // Delete a tweet from users twitter
-    public ValidatableResponse deleteTweet(Long tweetId) {
+    public ValidatableResponse deleteTweet(String tweetId) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .param("id", tweetId)
+                .param("id_str", tweetId)
                 .when().post(this.baseUrl + this.REMOVE_TWEET_EP)
                 .then();
     }
@@ -103,12 +110,11 @@ public class TweetAPIClientAldrin extends RestAPI {
     public ValidatableResponse createTweet(String tweet) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", tweet)
-                .when().post(this.baseUrl + this.POST_TWEET_EP)
+                .when()
+                .post(this.baseUrl + this.POST_TWEET_EP)
                 .then();
     }
 
-
-    // Response Time check
     public ValidatableResponse responseTime() {
         System.out.println(given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_POSTED_TWEETS_EP)

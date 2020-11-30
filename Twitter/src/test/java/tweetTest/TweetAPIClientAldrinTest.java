@@ -1,8 +1,10 @@
 package tweetTest;
+
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.ValidatableResponse;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import payload.aldrinsPayloadFiles;
 import tweet.TweetAPIClientAldrin;
@@ -22,66 +24,102 @@ public class TweetAPIClientAldrinTest {
 
     @Test
     public void testUserCanGetStatus() {
-        long id = 1212891076715057153L;
+        long id = 1333250857756893185L;
         ValidatableResponse response = this.tweetAPIClientAldrin.getStatusesWithID(id);
         response.statusCode(200);
-        System.out.println(response.extract().body().asPrettyString());
+
     }
 
-    @Test
-    public void testUserCanTweetSuccessfully() {
-        //1. User send a tweet
-        String tweet = "There are a minimum of " + UUID.randomUUID().toString() +" ants roaming the earth right now! You can count, if you dont believe me.";
-        ValidatableResponse response = this.tweetAPIClientAldrin.createTweet(tweet);
-        response.statusCode(200);
-        String actualTweet = response.extract().body().path("text");
-        Assert.assertEquals(actualTweet, tweet, "Tweet does not match expected");
+    @DataProvider(name = "TweetsToPost")
+    public Object[] getTweetData() {
+        return new Object[]{
+                "The exact number of grain of sands are: \n",
+                "Trump Lost, get over it. \n",
+                "If you didn't know what to do, don't start before you learn. \n",
+                "Coding is usually not boring. \n",
+                "It is required to be an assh#t sometimes. \n",
+                "If I am being honest, I am not sleepy at all. \n"
+        };
+    }
+    @Test (dataProvider = "TweetsToPost" )
+    public void testPostingTweets(String tweet) throws InterruptedException {
+        ValidatableResponse response = this.tweetAPIClientAldrin.createTweet(tweet+UUID.randomUUID().toString());
+        response.log().all().statusCode(200);
+        String postedTweet = response.extract().body().path("text");
+
+        System.out.println("The posted tweet is: \n" + postedTweet);
+
+
+
+        String postedTweetID = response.extract().body().path("id_str");
+        ValidatableResponse deleteResponse = this.tweetAPIClientAldrin.deleteTweet(postedTweetID);
+        int statusCodeDeleted = response.extract().statusCode();
+        System.out.println("Status code is: " + statusCodeDeleted);
     }
 
 
     @Test
-    public void testDelete() {
-        long id = 1331667960369475589L;
-        String tweet = "Tweeting this 0d13f749-c84b-4563-b7fd-2f38c2e42128";
+    public void testDeletePostedTweet() {
+        String id = "1333248449744162816";
         ValidatableResponse deleteResponse = this.tweetAPIClientAldrin.deleteTweet(id);
         deleteResponse.statusCode(200);
-        String actualTweet = deleteResponse.extract().body().path("text");
-        Assert.assertEquals(tweet, actualTweet);
     }
 
+
     @Test
-    public void testStatusRetweeters() {
-        Long id = 1331762798687293441L;
+    public void testRetweetById() {
+        String id = "1333155246068084737";
         ValidatableResponse response = this.tweetAPIClientAldrin.getStatusRetweeters(id);
         response.statusCode(200);
-        //System.out.println(response.extract().body().asPrettyString());
+        int statusCodeDeleted = response.extract().statusCode();
+        System.out.println("Status code is: " + statusCodeDeleted);
+
     }
 
     @Test
     public void testRetweet() {
-        String id = "1332788670471036932";
+        String id = "1333155246068084737";
         ValidatableResponse response = this.tweetAPIClientAldrin.postRetweet(id);
         response.statusCode(200);
     }
 
+    @DataProvider(name = "TwitterHandles")
+    public Object[] getData() {
+        return new Object[]{
+                "Astro_Soichi",
+                "Software%20Automation",
+                "AOC",
+                "elonmusk",
+                "nytimes",
+                "JoeBiden"
+        };
+    }
+
+    @Test(dataProvider = "TwitterHandles")
+    public void testShowRecentTweetsOfID(String handleID) {
+        String searchQuery = "?q=" + handleID + "&result_type=recent";
+        ValidatableResponse response = this.tweetAPIClientAldrin.searchTweetsOfID(searchQuery);
+        response.log().all().statusCode(200);
+    }
+
     @Test
-    public void testDeleteRetweet() {
+    public void testRemoveRetweet() {
         String id = "1332788670471036932";
-        ValidatableResponse response = this.tweetAPIClientAldrin.deleteRetweet(id);
+        ValidatableResponse response = this.tweetAPIClientAldrin.removeRetweet(id);
         response.statusCode(200);
     }
 
     @Test
-    public void testFavoriteOrLike() {
-        Long id = 1331721099785220099L;
-        ValidatableResponse response = this.tweetAPIClientAldrin.postFavoritesOrCreate(id);
+    public void testLikeATweet() {
+        Long id = 1332057147614531585L;
+        ValidatableResponse response = this.tweetAPIClientAldrin.likeATweet(id);
         response.statusCode(200);
     }
 
     @Test
-    public void testDeleteFavoriteOrLike() {
-        Long id = 1331721099785220099L;
-        ValidatableResponse response = this.tweetAPIClientAldrin.deleteFavorites(id);
+    public void testUnlikeATweet() {
+        Long id = 1332057147614531585L;
+        ValidatableResponse response = this.tweetAPIClientAldrin.unlikeATweet(id);
         response.statusCode(200);
     }
 
@@ -93,32 +131,31 @@ public class TweetAPIClientAldrinTest {
 
     @Test
     public void testResponseTimeForCreatingTweet() {
-        String tweet= "Testing response time again" + UUID.randomUUID().toString();
+        String tweet = "Testing response time again" + UUID.randomUUID().toString();
         ValidatableResponse response = this.tweetAPIClientAldrin.responseTimeForCreateTweet(tweet);
         response.statusCode(200);
     }
 
     @Test
-    public void testDeleteMessage() {
-        Long id = 500226111l;
+    public void testRemoveDM() {
+        Long id = 1333211166915571715L;
         ValidatableResponse deleteResponse = this.tweetAPIClientAldrin.deleteMessageUsingId(id);
         deleteResponse.statusCode(200);
     }
 
-    @Test//not working
+    @Test
     public void testGetSavedSearches() {
         ValidatableResponse response = this.tweetAPIClientAldrin.getSavedSearches();
         response.statusCode(200);
         System.out.println(response.extract().body().asPrettyString());
     }
 
-    @Test//not working
+    @Test
     public void testGetFriendships() {
         ValidatableResponse response = this.tweetAPIClientAldrin.getFriendships();
         response.statusCode(200);
         System.out.println(response.extract().body().asPrettyString());
     }
-
 
 
     @Test
@@ -143,7 +180,7 @@ public class TweetAPIClientAldrinTest {
         System.out.println(response.extract().body().asPrettyString());
     }
 
-    @Test//not working
+    @Test
     public void testGetProfileBanner() {
         long userId = 500226111;
         ValidatableResponse response = this.tweetAPIClientAldrin.getProfileBanner(userId);
@@ -151,7 +188,7 @@ public class TweetAPIClientAldrinTest {
         System.out.println(response.extract().body().asPrettyString());
     }
 
-    @Test//not working
+    @Test
     public void testCreateCollection() {
         ValidatableResponse response = this.tweetAPIClientAldrin.createCollectionOfTweets();
         response.statusCode(200);
@@ -159,7 +196,7 @@ public class TweetAPIClientAldrinTest {
 
     }
 
-    @Test//not working
+    @Test
     public void testGetTrends() {
         Long id = 2347591l;
         ValidatableResponse response = this.tweetAPIClientAldrin.getTrendsLocation();
@@ -168,7 +205,7 @@ public class TweetAPIClientAldrinTest {
     }
 
 
-    @Test//not working
+    @Test
     public void testFollowGivenID() {
         String userId = "258793489";
         ValidatableResponse response = this.tweetAPIClientAldrin.followId();
@@ -196,19 +233,17 @@ public class TweetAPIClientAldrinTest {
 
     @Test// working
     public void testWelcomeMessage() {
-        ValidatableResponse response = this.tweetAPIClientAldrin.createWelcomeMessage(aldrinsPayloadFiles.cuteBaby(),aldrinsPayloadFiles.workIsHard());
+        ValidatableResponse response = this.tweetAPIClientAldrin.createWelcomeMessage(aldrinsPayloadFiles.cuteBaby(), aldrinsPayloadFiles.workIsHard());
         response.statusCode(200);
         System.out.println(response.extract().body().asPrettyString());
     }
 
-    @Test// working
+    @Test
     public void testCreateList() {
         ValidatableResponse response = this.tweetAPIClientAldrin.createList();
         response.statusCode(200);
         System.out.println(response.extract().body().asPrettyString());
     }
-
-
 
 
 }
