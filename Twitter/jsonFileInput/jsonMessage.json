@@ -1,0 +1,13 @@
+{
+  "event": {
+    "type": "message_create",
+    "message_create": {
+      "target": {
+        "recipient_id": "500226111"
+      },
+      "message_data": {
+        "text": "Well look at that!"
+      }
+    }
+  }
+}

@@ -15,7 +15,9 @@ public class RestAPI {
     protected InputStream inputStream;
     protected String baseUrl;
     protected String uploadBase;
+
     protected String googleBase;
+
     public RestAPI() {
         this.uploadBase = "https://upload.twitter.com/1.1";
         this.baseUrl = "https://api.twitter.com/1.1";

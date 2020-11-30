@@ -11,7 +11,11 @@
     <modules>
         <module>Generic</module>
         <module>Twitter</module>
+
+        <module>Facebook</module>
+
         <module>Google</module>
+
     </modules>
 
     <properties>
