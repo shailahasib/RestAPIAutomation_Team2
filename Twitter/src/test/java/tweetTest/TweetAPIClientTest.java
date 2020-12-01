@@ -73,13 +73,7 @@ public class TweetAPIClientTest {
         System.out.println(response.extract().body().asPrettyString().contains("id"));
     }
 
-    @Test(enabled = true)
-    public void testReTweet(){
-        ValidatableResponse response = this.tweetAPIClient.createReTweet(1333505849889681408l);
-        System.out.println(response.extract().body().asPrettyString());
-        String actualTweet = response.extract().body().path("text");
-        Assert.assertEquals(actualTweet, "true");
-    }
+
 
 }
 
