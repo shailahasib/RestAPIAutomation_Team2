@@ -1,5 +1,7 @@
 package base;
 
+import org.testng.annotations.DataProvider;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
@@ -40,6 +42,20 @@ public class RestAPI {
 
 
     }
+
+    @DataProvider(name = "DataForPost")
+    public Object[][] createData() {
+
+        return new Object[][] {
+                {"Albert", "Einstein", 1},
+                {"Thomas", "Edison", 2},
+                {"Henry", "Ford", 3}
+        };
+    }
+
+
+
+
 
 
 }
