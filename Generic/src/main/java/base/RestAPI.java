@@ -19,7 +19,7 @@ public class RestAPI {
         this.properties = new Properties();
         inputStream = null;
         try {
-            // Path of the Secret.properties file
+            // Path of the Secret.properties file  //Twitter/secret.properties
             this.inputStream = new FileInputStream("../Twitter/secret.properties");
             this.properties.load(this.inputStream);
             this.apiKey = this.properties.getProperty("apiKey");
