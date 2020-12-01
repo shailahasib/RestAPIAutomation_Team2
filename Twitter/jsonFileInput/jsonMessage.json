@@ -3,10 +3,10 @@
     "type": "message_create",
     "message_create": {
       "target": {
-        "recipient_id": "500226111"
+        "recipient_id": "1329204372694315009"
       },
       "message_data": {
-        "text": "Well look at that!"
+        "text": "Well, what do you know? \uD83D\uDC41 json passed my emoji!"
       }
     }
   }
