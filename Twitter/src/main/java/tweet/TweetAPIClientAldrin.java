@@ -7,6 +7,9 @@ import org.json.simple.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
@@ -35,7 +38,7 @@ public class TweetAPIClientAldrin extends RestAPI {
     private final String GET_SAVED_SEARCHES_ENDPOINT = "/saved_searches/list.json";
     private final String FOLLOW_USER_EP = "/friendships/show.json";
     private final String DELETE_MESSAGE_EP = "/direct_messages/events/destroy.json";
-    private final String WELCOME_MSG_EP = "/direct_messages/welcome_messages/new.json";
+    private final String CHAT_WELCOME_MG_EP = "/direct_messages/welcome_messages/new.json";
     private final String CREATE_LIST_ENDPOINT = "/lists/create.json";
     private final String SEARCH_STANDARD_EP = "/search/tweets.json";
     private final String CHANGE_PROFILE_PIC_EP = "/account/update_profile_image.json";
@@ -144,16 +147,28 @@ public class TweetAPIClientAldrin extends RestAPI {
         return j;
     }
 
-    public ValidatableResponse createWelcomeMessage(String s, String payload) {
+    public ValidatableResponse createWelcomeMessage() throws FileNotFoundException {
+        FileInputStream inputStream = new FileInputStream("../Twitter/jsonFileInput/welcomeMessage.json");
+
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .log().all()
                 .accept(ContentType.JSON)
                 .header("Content-Type", "application/json")
                 .contentType(ContentType.JSON)
-                .body(payload)
-                .when().post(this.baseUrl + this.WELCOME_MSG_EP)
-                .then().log().all();
+                .body(inputStream)
+                .when().post(this.baseUrl + this.CHAT_WELCOME_MG_EP)
+                .then();
     }
-
+    public ValidatableResponse sendDMwithTextFile() throws IOException {
+        String proPic = new String(Files.readAllBytes((Paths.get("assetsRepo/base64/weddingPortrait.txt"))));
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+//                .accept(ContentType.JSON)
+                .header("Content-Type", "application/json")
+//                .contentType(ContentType.JSON)
+                .body(proPic)
+                .when().post(this.baseUrl + this.SEND_MESSAGE_EP)
+                .then();
+    }
 
     public ValidatableResponse messageCreateSecond() throws FileNotFoundException {
         FileInputStream inputStream = new FileInputStream("../Twitter/jsonFileInput/jsonMessage.json");
@@ -239,9 +254,9 @@ public class TweetAPIClientAldrin extends RestAPI {
     }
 
 
-    public ValidatableResponse getFriendships() {
+    public ValidatableResponse getFriendships(String paramUserHandle, String paramFriendHandle) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
-                .param("source_screen_name", "tester_aldrin").param("target_screen_name", "aldrinatanu")
+                .param("source_screen_name", paramUserHandle).param("target_screen_name", paramFriendHandle)
                 .when().post(this.baseUrl + this.FOLLOW_USER_EP)
                 .then();
     }

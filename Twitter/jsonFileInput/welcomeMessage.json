@@ -1,0 +1,14 @@
+{
+  "welcome_message" : {
+    "name": "simple_welcome-message 01",
+    "message_data": {
+      "text": "Welcome!",
+      "attachment": {
+        "type": "media",
+        "media": {
+          "id": "48909183894931"
+        }
+      }
+    }
+  }
+}

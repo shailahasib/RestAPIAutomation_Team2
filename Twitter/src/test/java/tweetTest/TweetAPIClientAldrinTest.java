@@ -2,12 +2,10 @@ package tweetTest;
 
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.ValidatableResponse;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import payload.aldrinsPayloadFiles;
-import payload.copyOfAldrinsPayload;
 import tweet.TweetAPIClientAldrin;
 
 
@@ -167,7 +165,7 @@ public class TweetAPIClientAldrinTest {
 
     @Test
     public void testGetFriendships() {
-        ValidatableResponse response = this.tweetAPIClientAldrin.getFriendships();
+        ValidatableResponse response = this.tweetAPIClientAldrin.getFriendships("tester_aldrin","rahulshettyRz");
         response.statusCode(200);
         System.out.println(response.extract().body().asPrettyString());
     }
@@ -233,22 +231,26 @@ public class TweetAPIClientAldrinTest {
         ValidatableResponse response = this.tweetAPIClientAldrin.dmGivenID();
         response.assertThat().statusCode(200).extract().body().asPrettyString();//.assertThat().header();
         JsonPath js = new JsonPath(String.valueOf(response)); //to parse the json input/output of method
-        //String id = js.getString("event.type");
-        //System.out.println(id);
+
 
     }
+    @Test
+    public void testDirectMessageDatProvider() throws IOException {
+        ValidatableResponse response = this.tweetAPIClientAldrin.sendDMwithTextFile();
+        response.statusCode(200);
+        System.out.println(response.extract().body().asPrettyString());
+    }
 
-
-    @Test// working
+    @Test
     public void testDirectMessageSecond() throws FileNotFoundException {
         ValidatableResponse response = this.tweetAPIClientAldrin.messageCreateSecond();
         response.statusCode(200);
         System.out.println(response.extract().body().asPrettyString());
     }
 
-    @Test// working
-    public void testWelcomeMessage() {
-        ValidatableResponse response = this.tweetAPIClientAldrin.createWelcomeMessage(aldrinsPayloadFiles.cuteBaby(), aldrinsPayloadFiles.workIsHard());
+    @Test
+    public void testWelcomeMessage() throws FileNotFoundException {
+        ValidatableResponse response = this.tweetAPIClientAldrin.createWelcomeMessage();
         response.statusCode(200);
         System.out.println(response.extract().body().asPrettyString());
     }
