@@ -13,16 +13,16 @@ import java.util.UUID;
 
 public class TwiterApiAutomationWithRestAssuredTest {
     private TweetAPIClientRuna tweetAPIClient;
-
     @BeforeClass
-    public void setUpPostsAPI(){
-        this.tweetAPIClient=new TweetAPIClientRuna();
+    public void setUpPostsAPI() {
+        this.tweetAPIClient = new TweetAPIClientRuna();
     }
+
     @Test
     public void setUpTweetAPI() {
-        TwiterApiaAutomationWithRestAssured obj= new TwiterApiaAutomationWithRestAssured(110,"test title","test body");
+        TwiterApiaAutomationWithRestAssured obj = new TwiterApiaAutomationWithRestAssured(110, "test title", "test body");
         ValidatableResponse response = this.tweetAPIClient.createPost(obj);
-     response.statusCode(400);
+        response.statusCode(400);
         System.out.println(response.extract().body().asPrettyString());
     }
 
@@ -31,9 +31,6 @@ public class TwiterApiAutomationWithRestAssuredTest {
 // System.out.println(response.extract().body().asPrettyString());
 //
 //}
-
-
-
 
 
 }

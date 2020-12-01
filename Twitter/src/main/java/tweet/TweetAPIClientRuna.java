@@ -40,11 +40,24 @@ public class TweetAPIClientRuna extends RestAPI {
     private final String GET_USER_SHOW_ENDPOINT = "/users/show.json";
     private final String CREATE_FRIENDSHIPS_ENDPOINT = "/friendships/create.json";
     private final String DELETE_FRIENDSHIPS_ENDPOINT = "/friendships/destroy.json";
+    private final String GET_DIRECT_WELCOME_MESSAGE = "/direct_messages/welcome_messages/rules/list.json";
+    private final String POST_DIRECT_WELCOME_MESSAGE = "/direct_messages/welcome_messages/new.json";
+    private final String POST_DIRECT_WELCOME_MESSAGE_NEW = "/direct_messages/welcome_messages/new.json";
+    private final String POST_DIRECT_WELCOME_MARK_READ = "/direct_messages/mark_read.json";
+ private final String POST_DIRECT_MASSAGE_INDICATE = "/direct_messages/indicate_typing.json";
+ private final String POST_FILTER_REAL_TIME = "/statuses/filter.json";
+ private final String GET_REAL_TIME_SAMPLE = "/statuses/sample.json";
+ private final String GET_MUTE_USER_LIST = "/mutes/users/list.json";
+ private final String POST_USER_DESTORY_ENDPOINT = "/mutes/users/destroy.json";
 
 
     public ValidatableResponse getUserTimeTweet() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_TRENDS_AVALIABLE_ENDPOINT)
+                .then();
+    }public ValidatableResponse getUserDirectMassage() {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .when().get(this.baseUrl + this.GET_DIRECT_WELCOME_MESSAGE)
                 .then();
     }
 
@@ -71,87 +84,97 @@ public class TweetAPIClientRuna extends RestAPI {
                 .when().get(this.baseUrl + this.GET_TRENDS_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse getGeoTweet() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_GEO_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse createTweet(String tweet) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", tweet)
                 .when().post(this.baseUrl + this.CREATE_TWEET_ENDPOINT)
                 .then();
+    } public ValidatableResponse createTweetMassageIndicate(String tweet) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .param("status", tweet)
+                .when().post(this.baseUrl + this.POST_DIRECT_MASSAGE_INDICATE)
+                .then();
     }
-
+    public ValidatableResponse userCanCreatTweetdirectMassage(String tweet) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .param("status", tweet)
+                .when().post(this.baseUrl + this.POST_DIRECT_WELCOME_MESSAGE)
+                .then();
+    }
     public ValidatableResponse createFriendShipTweet(String tweet) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", tweet)
                 .when().post(this.baseUrl + this.CREATE_FRIENDSHIPS_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse deleteTweet(Long tweetId) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .queryParam("id", tweetId)
                 .when().post(this.baseUrl + this.DELETE_TWEET_ENDPOINT)
                 .then();
     }
-
+    public ValidatableResponse deleteMassageTweet(String text) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .queryParam("text")
+                .when().post(this.baseUrl + this.POST_DIRECT_WELCOME_MESSAGE_NEW)
+                .then();
+    }
     public ValidatableResponse deleteFriendShipTweet(String tweet) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .queryParam("message", tweet)
                 .when().post(this.baseUrl + this.DELETE_FRIENDSHIPS_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse getUserTimeFromTweter() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_USER_TWEETER_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse createTweeter(String tweeter) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", tweeter)
                 .when().post(this.baseUrl + this.CREATE_TWEETER_ENDPOINT)
                 .then();
     }
-
+    public ValidatableResponse createmassageMarkRead(String tweeter) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .param("status", tweeter)
+                .when().post(this.baseUrl + this.POST_DIRECT_WELCOME_MARK_READ)
+                .then();
+    }
     public ValidatableResponse userCanDeleFromTweet(Long tweetId) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .queryParam("id", tweetId)
                 .when().post(this.baseUrl + this.DELETE_TWEETER_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse getUserFromCollectionList() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_CollECTIONLIST_TWEETER_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse createUserCollection(String tweeto) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", tweeto)
                 .when().post(this.baseUrl + this.CREATE_CollECTIONLIST_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse userCanDeleFromCollectionList(String errors) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .queryParam("errors", "message")
                 .when().post(this.baseUrl + this.DELETE_CollECTIONLIST_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse getUserDirectMessages() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_DIRECT_MASSAGE_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse createDirectMassageFromUser(String twitt) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", twitt)
@@ -159,20 +182,17 @@ public class TweetAPIClientRuna extends RestAPI {
 
                 .then();
     }
-
     public ValidatableResponse createMediaFromUser(String twitt) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", twitt)
                 .when().post(this.baseUrl + this.CREATE_DIRECT_MEDIA_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse getTrendsPlace() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_TRENDS_PLACE_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse responseMediaTime() {
         System.out.println(given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_TRENDS_PLACE_ENDPOINT)
@@ -181,13 +201,11 @@ public class TweetAPIClientRuna extends RestAPI {
                 .when().get(this.baseUrl + this.GET_TRENDS_PLACE_ENDPOINT)
                 .then();
     }
-
     public void mediaHeaderValue() {
         System.out.println(given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_TRENDS_PLACE_ENDPOINT)
                 .then().extract().headers());
     }
-
     public void PropertyValueCheck() {
         Response response = given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_CollECTIONLIST_TWEETER_ENDPOINT);
@@ -195,18 +213,15 @@ public class TweetAPIClientRuna extends RestAPI {
         String createdAt = pathEvaluator.get("id");
         System.out.println(createdAt);
     }
-
     public ValidatableResponse createPost(Object json) {
         return given().header("Content-type", "application/json").body(json)
                 .when().post(this.baseUrl + CREATE_TWEET_ENDPOINT).then();
     }
-
     public ValidatableResponse getFollowerList() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_FoLLOWERLIST_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse UserCreateFollowerList(String mediaTweet) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", mediaTweet)
@@ -219,92 +234,100 @@ public class TweetAPIClientRuna extends RestAPI {
                 .when().get(this.baseUrl + this.CREATE_FoLLOWERLIST_ENDPOINT)
                 .then().extract().headers());
     }
-
     public void followerBodyValue() {
         System.out.println(given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.CREATE_FoLLOWERLIST_ENDPOINT)
                 .then().extract().body());
     }
-
     public ValidatableResponse UsergetTimeLineId(Long Id) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", Id)
                 .when().post(this.baseUrl + this.CREATE_TWEET_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse deleteTweetValided(Long tweetId) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .queryParam("id", tweetId)
                 .when().post(this.baseUrl + this.DELETE_TWEET_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse createFavorites(String tweet) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", tweet)
                 .when().post(this.baseUrl + this.CREATE_TWEET_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse favoritesDelete(Long tweetId) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .queryParam("id", tweetId)
                 .when().post(this.baseUrl + this.DELETE_FAVORITES_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse createMediaTweet(String mediatweet) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", mediatweet)
                 .when().post(this.baseUrl + this.CREATE_MEDIA_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse getMediaTweet() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_MEDIA_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse CreatemediaSubTitlle(String tweet) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", tweet)
                 .when().post(this.baseUrl + this.GET_MEDIA_SUBTITLE_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse createMediaUpload(String tweet) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", tweet)
                 .when().post(this.baseUrl + this.POST_MEDIA_UPLOAD_SUBTITLE_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse createCollectionLsst(String tweet) {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .param("status", tweet)
                 .when().post(this.baseUrl + this.POST_COLLECTIONS_CRETATE_ENDPOINT)
                 .then();
     }
-
     public ValidatableResponse getcollectionsTweet() {
         return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_COLLECTIONS_ENDPOINT)
                 .then();
     }
-
     public void collectionHeaderValue() {
         System.out.println(given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_COLLECTIONS_ENDPOINT)
                 .then().extract().headers());
-
     }
-
     public void collectionBodyValue() {
         System.out.println(given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
                 .when().get(this.baseUrl + this.GET_COLLECTIONS_ENDPOINT)
                 .then().extract().body());
-
     }
+    public ValidatableResponse createPostFilter(String tweet) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .param("status", tweet)
+                .when().post(this.baseUrl + this.POST_FILTER_REAL_TIME)
+                .then();
+}
+    public ValidatableResponse getrealTimeSample() {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .when().get(this.baseUrl + this.GET_REAL_TIME_SAMPLE)
+                .then();
+    }
+    public ValidatableResponse getMuteUserList() {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .when().get(this.baseUrl + this.GET_MUTE_USER_LIST)
+                .then();
+    }
+    public ValidatableResponse createUserDestroy(String tweet) {
+        return given().auth().oauth(this.apiKey, this.apiSecretKey, this.accessToken, this.accessTokenSecret)
+                .param("status", tweet)
+                .when().post(this.baseUrl + this.POST_USER_DESTORY_ENDPOINT)
+                .then();
+    }
+
 }

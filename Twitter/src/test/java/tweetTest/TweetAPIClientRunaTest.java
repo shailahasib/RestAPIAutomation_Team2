@@ -6,20 +6,15 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import tweet.TweetAPIClientRuna;
-
-
 import java.util.UUID;
-
-
 public class TweetAPIClientRunaTest {
-
-
     private TweetAPIClientRuna tweetAPIClient;
 
     @BeforeClass
     public void setUpTweetAPI() {
         this.tweetAPIClient = new TweetAPIClientRuna();
     }
+
     //1
     @Test(enabled = true)
     public void testUserCanTweetSuccessfully() {
@@ -55,7 +50,6 @@ public class TweetAPIClientRunaTest {
         Assert.assertEquals(actualMessage, expectedMessage, "Message not match");
         Assert.assertNotSame("200", 403);
     }
-
     //3
     @Test(enabled = false)
     public void testDelete() {
@@ -65,7 +59,6 @@ public class TweetAPIClientRunaTest {
         String actualTweet = deleteResponse.extract().body().path("text");
         Assert.assertEquals(tweet, actualTweet);
     }
-
     //4
     @Test(enabled = false)
     public void testGetmethod() {
@@ -77,7 +70,6 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("text");
         Assert.assertEquals(actualTweet, tweet, "Tweet is not match");
     }
-
     //5
     @Test(enabled = false)
     public void getUserTimeFromTweterTest() {
@@ -99,7 +91,6 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("text");
         Assert.assertEquals(actualTweet, tweeter, "Tweet is not match");
     }
-
     //7
     @Test(enabled = false)
     public void userCanDeleFromTweetTest() {
@@ -109,14 +100,12 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("text");
         Assert.assertEquals(actualTweet, tweeter, "Tweet is not match");
     }
-
     //8
     @Test(enabled = false)
     public void getUserCollectionTest() {
         ValidatableResponse response = tweetAPIClient.getUserFromCollectionList();
         System.out.println(response.extract().body().asPrettyString());
     }
-
     //9
     @Test(enabled = false)
     public void userCanCreateCollectionList() {
@@ -129,21 +118,18 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("errors[0].message");
         Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
     }
-
     //10
     @Test(enabled = false)
     public void userCandeleteCollectionList() {
         String tweet = "If you do hard work success will knock your door";
         ValidatableResponse deleteResponse = this.tweetAPIClient.userCanDeleFromCollectionList("message");
     }
-
     //11
     @Test(enabled = false)
     public void getUserDirectMassageTest() {
         ValidatableResponse response = tweetAPIClient.getUserDirectMessages();
         System.out.println(response.extract().body().asPrettyString());
     }
-
     //12
     @Test(enabled = false)
     public void createDirectMassageTest() {
@@ -154,7 +140,6 @@ public class TweetAPIClientRunaTest {
 //    String expectedMessage="Bad request.";
         System.out.println(response.extract().body().asPrettyString());
     }
-
     //13
     @Test(enabled = false)
     public void createMediaTest() {
@@ -163,7 +148,6 @@ public class TweetAPIClientRunaTest {
         ValidatableResponse response = this.tweetAPIClient.createMediaFromUser(tweeterr);
         System.out.println(response.extract().body().asPrettyString());
     }
-
     //14
     @Test(enabled = false)
     public void getTrendsPlaceTest() {
@@ -174,19 +158,16 @@ public class TweetAPIClientRunaTest {
         String actualMessage = response.extract().body().path("errors[0].message");
         Assert.assertEquals(actualMessage, expectedMessage, "Sorry, that page does not exist.");
     }
-
     //15
     @Test(enabled = false)
     public void testResponseTime() {
         ValidatableResponse response = this.tweetAPIClient.responseMediaTime();
     }
-
     //16
     @Test(enabled = true)
     public void mediaHeaderValueTest() {
         this.tweetAPIClient.mediaHeaderValue();
     }
-
     //17
     @Test(enabled = false)
     public void testPropertyFromResponse() {
@@ -194,7 +175,6 @@ public class TweetAPIClientRunaTest {
         ValidatableResponse response = this.tweetAPIClient.createTweeter(tweeter);
         System.out.println(response.extract().body().asPrettyString().contains("id"));
     }
-
     //18
     @Test(enabled = false)
     public void getFollowerListTest() {
@@ -204,7 +184,6 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("users[0].next_cursor");
         Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
     }
-
     //19
     @Test(enabled = true)
     public void UserCreateFollowerListTest() {
@@ -212,13 +191,11 @@ public class TweetAPIClientRunaTest {
         ValidatableResponse response = this.tweetAPIClient.UserCreateFollowerList(mediaTweet);
         System.out.println(response.extract().body().asPrettyString());
     }
-
     //20
     @Test(enabled = false)
     public void followerHeaderValueTest() {
         this.tweetAPIClient.followerHeaderValue();
     }
-
     //21
     @Test(enabled = false)
     public void followerBodyValue() {
@@ -228,30 +205,25 @@ public class TweetAPIClientRunaTest {
     //22
     @Test(enabled = false)
     public void deleteTweetValidedTest() {
-
         String tweet = "We can do anything";
         ValidatableResponse deleteResponse = this.tweetAPIClient.deleteTweet(1332560319156285445l);
         deleteResponse.statusCode(200);
         String actualTweet = deleteResponse.extract().body().path("text");
         Assert.assertEquals(tweet, actualTweet);
     }
-
     //23
     @Test(enabled = false)
     public void getTRENDSTweetTesst() {
         ValidatableResponse response = this.tweetAPIClient.getTRENDSTweet();
         System.out.println(response.extract().body().asPrettyString());
     }
-
     //24
     @Test(enabled = false)
     public void getGeoTweettTesst() {
         ValidatableResponse response = this.tweetAPIClient.getGeoTweet();
         System.out.println(response.extract().body().asPrettyString());
         response.statusCode(400);
-
     }
-
     //25
     @Test(enabled = false)
     public void createFavoritesTest() {
@@ -261,7 +233,6 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("text");
         Assert.assertEquals(actualTweet, tweeterr, "Tweet is not match");
     }
-
     //26
     @Test(enabled = false)
     public void favoritesDeleteTest() {
@@ -273,7 +244,6 @@ public class TweetAPIClientRunaTest {
 //        Assert.assertEquals(tweet,actualTweet);
 
     }
-
     //27
     @Test(enabled = false)
     public void getTrendsAvaliableTest() {
@@ -282,7 +252,6 @@ public class TweetAPIClientRunaTest {
         String expectedMessage = "No status found with that ID.";
         response.statusCode(200);
     }
-
     //28
     @Test(enabled = false)
     public void userCanCreateMediaTweetTest() {
@@ -293,7 +262,6 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("errors[0].message");
         Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
     }
-
     //29
     @Test(enabled = false)
     public void getMediaTweetTest() {
@@ -302,20 +270,17 @@ public class TweetAPIClientRunaTest {
         // String expectedMessage="No status found with that ID.";
         // response.statusCode(200);
     }
-
     //30
     @Test(enabled = false)
     public void userCanCreateMediaSubTitleTest() {
         String Mtweeterr = "New JustinBiber son 2020" + UUID.randomUUID().toString();
         ValidatableResponse response = this.tweetAPIClient.createMediaTweet(Mtweeterr);
-
         response.statusCode(404);
         String expectedMessage = "Sorry, that page does not exist";
         System.out.println(response.extract().body().asPrettyString());
         String actualTweet = response.extract().body().path("errors[0].message");
         Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
     }
-
     //31
     @Test(enabled = false)
     public void createMediaUploadTest() {
@@ -327,7 +292,6 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("errors[0].message");
         Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
     }
-
     //32
     @Test(enabled = false)
     public void createCollectionLsstTest() {
@@ -339,7 +303,6 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("errors[0].message");
         Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
     }
-
     //33
     @Test(enabled = false)
     public void getcollectionsTweetTest() {
@@ -350,19 +313,16 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("errors[0].message");
         Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
     }
-
     //34
     @Test(enabled = false)
     public void collectionHeaderValueTest() {
         this.tweetAPIClient.collectionHeaderValue();
     }
-
     //35
     @Test(enabled = false)
     public void collectionBodyValueTest() {
         this.tweetAPIClient.collectionBodyValue();
     }
-
     //36
     @Test(enabled = false)
     public void getUserUploadLookUpTest() {
@@ -373,7 +333,6 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("errors[0].message");
         Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
     }
-
     //37
     @Test(enabled = false)
     public void getUserUserShowTweetTest() {
@@ -384,7 +343,6 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("errors[0].message");
         Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
     }
-
     //38
     @Test(enabled = false)
     public void createFriendShipTweetTest() {
@@ -396,14 +354,96 @@ public class TweetAPIClientRunaTest {
         String actualTweet = response.extract().body().path("errors[0].message");
         Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
     }
-
     //39
     @Test(enabled = true)
     public void deleteFriendShipTweetTest() {
         String tweet = "We can do anything";
         ValidatableResponse deleteResponse = this.tweetAPIClient.deleteFriendShipTweet(tweet);
     }
-
+    //40
+    @Test(enabled = true)
+    public void getUserDirectMassage() {
+        ValidatableResponse response = this.tweetAPIClient.getUserDirectMassage();
+        System.out.println(response.extract().body().asPrettyString());
+        response.statusCode(200);
+    }
+    //42
+    @Test(enabled = true)
+    public void userCanCreatTweetdirectMassageTest() {
+        String tweeterr = "I can wake all night for bootcamp" + UUID.randomUUID().toString();
+        ValidatableResponse response = this.tweetAPIClient.userCanCreatTweetdirectMassage(tweeterr);
+        System.out.println(response.extract().body().asPrettyString());
+        response.statusCode(415);
+    }
+    //43
+    @Test(enabled = true)
+    public void deleteMassageTweet() {
+        String tweet = "We can do anything";
+        ValidatableResponse deleteResponse = this.tweetAPIClient.deleteMassageTweet(tweet);
+        deleteResponse.statusCode(422);
+    }
+    //44
+    @Test(enabled = true)
+    public void createmassageMarkRead() {
+        String Mtweeterr = "Jastin biber new song hitted in the market" + UUID.randomUUID().toString();
+        ValidatableResponse response = this.tweetAPIClient.createmassageMarkRead(Mtweeterr);
+        response.statusCode(400);
+        String expectedMessage = "recipient_id parameter is missing.";
+        System.out.println(response.extract().body().asPrettyString());
+        String actualTweet = response.extract().body().path("errors[0].message");
+        Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
+    }
+    //45
+    @Test(enabled = true)
+    public void createTweetMassageIndicate() {
+        String Mtweeterr = "Jastin biber new song hitted in the market" + UUID.randomUUID().toString();
+        ValidatableResponse response = this.tweetAPIClient.createTweetMassageIndicate(Mtweeterr);
+        response.statusCode(400);
+        String expectedMessage = "recipient_id parameter is missing.";
+        System.out.println(response.extract().body().asPrettyString());
+        String actualTweet = response.extract().body().path("errors[0].message");
+        Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
+    }
+    //46
+    @Test(enabled = true)
+    public void createPostFilter() {
+        String Mtweeterr = "Jastin biber new song hitted in the market" + UUID.randomUUID().toString();
+        ValidatableResponse response = this.tweetAPIClient.createPostFilter(Mtweeterr);
+        response.statusCode(404);
+        String expectedMessage = "Sorry, that page does not exist";
+        System.out.println(response.extract().body().asPrettyString());
+        String actualTweet = response.extract().body().path("errors[0].message");
+        Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
+    }
+    //47
+    @Test(enabled = true)
+    public void getrealTimeSample() {
+        ValidatableResponse response = this.tweetAPIClient.getrealTimeSample();
+        System.out.println(response.extract().body().asPrettyString());
+        response.statusCode(404);
+        String expectedMessage = "Sorry, that page does not exist";
+        System.out.println(response.extract().body().asPrettyString());
+        String actualTweet = response.extract().body().path("errors[0].message");
+        Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
+    }
+    //48
+    @Test(enabled = true)
+    public void getMuteUserList() {
+        ValidatableResponse response = tweetAPIClient.getMuteUserList();
+        System.out.println(response.extract().body().asPrettyString());
+        response.statusCode(200);
+    }
+    //49
+    @Test(enabled = true)
+    public void createUserDestroy() {
+        String Mtweeterr = "Jastin biber new song hitted in the market" + UUID.randomUUID().toString();
+        ValidatableResponse response = this.tweetAPIClient.createUserDestroy(Mtweeterr);
+        response.statusCode(404);
+        String expectedMessage = "Sorry, that page does not exist.";
+        System.out.println(response.extract().body().asPrettyString());
+        String actualTweet = response.extract().body().path("errors[0].message");
+        Assert.assertEquals(actualTweet, expectedMessage, "Tweet is not match");
+    }
 }
 
 
