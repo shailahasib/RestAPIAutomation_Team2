@@ -1,0 +1,13 @@
+{
+  "event": {
+    "type": "message_create",
+    "message_create": {
+      "target": {
+        "recipient_id": "1329204372694315009"
+      },
+      "message_data": {
+        "text": "I DM you!"
+      }
+    }
+  }
+}
