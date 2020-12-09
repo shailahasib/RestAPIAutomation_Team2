@@ -1,0 +1,13 @@
+{
+  "event": {
+    "type": "message_create",
+    "message_create": {
+      "target": {
+        "recipient_id": "1329159639477473280"
+      },
+      "message_data": {
+        "text": "Amina Harry Up, are you in bathroom??? "
+      }
+    }
+  }
+}
